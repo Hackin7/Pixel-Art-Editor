@@ -2,7 +2,8 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 converter = __import__('ConvertWebData')
-player = __import__('PlayOnLEDMatrix')#Only for LED Matrix
+#player = __import__('PlayOnLEDMatrix')#Only for LED Matrix
+player = __import__('DummyPlayer')#If no LED Matrix
 
 import json, os
 animationsfile = 'UserData/animations.json'
