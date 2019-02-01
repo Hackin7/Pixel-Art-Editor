@@ -9,7 +9,7 @@ Made for this [Instructable](https://www.instructables.com/id/LED-Matrix-2/)
     *Only needed if using it to wirelessly control WS2812 LEDs on a Raspberry Pi or such
     * Just Run `pip3 install RPI.GPIO `, ` pip3 install adafruit-blinka`  and `sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel`
     
-## To Use
+## Running
 Just run in the directory as such:
 ``` sudo python3 WebServer.py```
 
@@ -31,3 +31,16 @@ More details of how exactly to construct such an LED Matrix in the Instructable 
 
 ## Some suggestions
 To make it run on bootup of the Raspberry Pi, you could add the run command to /etc/rc.local, right before  the line`exit 0`
+
+## Webpage
+Take note that generally on an item you:
+1. Click to open
+2. Double Click to Remove
+3. Right Click to overwrite
+
+When dealing with colors, animation frames, and saved pixel arts and animations on the server
+
+About the savedata, you can just copy the entire text in the text box for the pixel arts and animations and save it in a text document. (To save it locally)
+To load the data, just copy and paste the savedata text in the appropriate input field and click on load.
+##Also available on Codepen.io!
+But cannot store and save Pixel Arts and Animations to the server https://codepen.io/Hackin7/pen/xMbrzp
