@@ -1,0 +1,43 @@
+<div class="content">
+    <h2>Options</h2><!--
+    <textarea id="send-input"></textarea>
+    <button class="button" id='send-text'>Show Text on Matrix</button>-->
+    <button class="button" id='send-art'>Show Pixel Art on Matrix</button>
+    <button class="button" id='send-animation'>Show Animation on Matrix</button>
+</div>
+
+<script>
+var send={};
+//send.input = document.getElementById('send-input');
+//send.text = document.getElementById('send-text');
+send.art = document.getElementById('send-art');
+send.animation = document.getElementById('send-animation');
+
+function POSTrequest(url,data){
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", url, true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(data);//"fname=Henry&lname=Ford");
+}
+
+function sendText(){
+    //POSTrequest("/API/show/text","data="+send.input.value+"");
+    alert('Sent Text: '+send.input.value);
+}
+
+function sendPixelArt(){
+    var data = JSON.stringify(metadata());
+    POSTrequest("/API/show/pixelart","data="+data);
+    alert('Sent Pixel Art: '+data);
+}
+
+function sendAnimation(name){
+    var data = JSON.stringify(showAnimationData());
+    POSTrequest("/API/show/animation","data="+JSON.stringify(data));
+    alert('Sent Animation: '+data);
+}
+//send.text.onclick = sendText;
+send.art.onclick = sendPixelArt;
+send.animation.onclick = sendAnimation;
+
+</script>

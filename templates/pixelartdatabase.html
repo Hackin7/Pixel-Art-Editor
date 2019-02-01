@@ -1,0 +1,170 @@
+<div class="content">
+
+<h2>Pixel Art Database</h2>
+
+<h3 id='database-title'>Pixel Arts  <button id='database-pixelarts-add'>+</button></h3>
+<ol id='database-pixelarts'></ol>
+
+<h3>Animations  <button id='database-animations-add'>+</button></h3>
+<ol id='database-animations'></ol>
+
+</div>
+
+<script>
+var database = {};
+
+database.title = document.getElementById('database-title');
+database.pixelarts={};
+database.pixelarts.list={};
+database.pixelarts.element = document.getElementById('database-pixelarts');
+database.pixelarts.add = document.getElementById('database-pixelarts-add');
+
+database.animations={};
+database.animations.list={};
+database.animations.element = document.getElementById('database-animations');
+database.animations.add = document.getElementById('database-animations-add');
+
+function loadPixelArts() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      database.pixelarts.list = JSON.parse(this.responseText.replace(/'/g, '"'));
+      showDatabase();
+    }
+  };
+  xhttp.open("GET", "/API/get/pixelarts", true);
+  xhttp.send();
+}
+
+function loadAnimations() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      data = this.responseText.replace(/'/g, '"').replace(/False/g, 'false').replace(/True/g, 'true');
+      database.animations.list = JSON.parse(data);
+      showDatabase();
+    }
+  };
+  xhttp.open("GET", "/API/get/animations", true);
+  xhttp.send();
+}
+
+function POSTrequest(url,data){
+  var xhttp = new XMLHttpRequest();
+  /*
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML = this.responseText;
+    }
+  };*/
+  xhttp.open("POST", url, true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(data);//"fname=Henry&lname=Ford");
+}
+
+function overwritePixelArt(name){
+    if (confirm("Overwrite Pixel Art "+name+" with current pixel art shown?")){
+        POSTrequest("/API/store/pixelart","name="+name+"&data="+JSON.stringify(metadata()));
+    }
+    loadPixelArts();
+    showDatabase();
+}
+function overwriteAnimation(name){
+    if (confirm("Overwrite Animation "+name+" with current animation shown?")){
+        POSTrequest("/API/store/animation","name="+name+"&data="+JSON.stringify(showAnimationData()));
+    }
+    loadAnimations()
+    showDatabase();
+}
+
+function saveNewPixelArt(){
+    var name = prompt("Save Current Pixel Art as (will overwrite pixel art of that name)","");
+    if (name != null || name == ""){
+        POSTrequest("/API/store/pixelart","name="+name+"&data="+JSON.stringify(metadata()));
+    }
+    loadPixelArts();
+    showDatabase();
+}
+
+function saveNewAnimation(){
+    var name = prompt("Save Current Animation as (will overwrite animation of that name)","");
+    if (name != null || name == ""){
+        POSTrequest("/API/store/animation","name="+name+"&data="+JSON.stringify(showAnimationData()));
+    }
+    loadAnimations();
+    showDatabase();
+}
+database.pixelarts.add.onclick=saveNewPixelArt;
+database.animations.add.onclick=saveNewAnimation;
+
+function removePixelArt(name){
+    if (confirm("Remove Pixel Art "+name+"?")){
+        POSTrequest("/API/remove/pixelart","name="+name)
+    }
+    showDatabase();
+}
+function removeAnimation(name){
+    if (confirm("Remove Animation "+name+"?")){
+        POSTrequest("/API/remove/animation","name="+name)
+    }
+    showDatabase();
+}
+
+loadPixelArts();
+loadAnimations();
+showDatabase();
+
+//Refreshing
+database.title.onmouseover = function(){
+    loadPixelArts();
+    loadAnimations();
+    //alert(database.pixelarts.textlist);
+    
+}
+
+function loadAnimationData(data){
+  animation = data.frames;
+  elements.animation.timing.value = data.timing;
+  elements.animation.repeat.checked = data.repeat;
+  showFrames();
+}
+
+function showDatabase(){
+    database.pixelarts.element.innerHTML = '';
+    for (var name in database.pixelarts.list){
+        if (database.pixelarts.list.hasOwnProperty(name)) {
+            var listelement = document.createElement("li");
+            
+            var pixelart = document.createElement("button");
+            pixelart.innerHTML = name;
+            
+            pixelart.setAttribute("onclick","loadmetadata(database.pixelarts.list['"+name+"']);");
+            pixelart.setAttribute("ondblclick","removePixelArt('"+name+"')");
+            pixelart.setAttribute("oncontextmenu","overwritePixelArt('"+name+"')");
+            
+            listelement.appendChild(pixelart);
+            database.pixelarts.element.appendChild(listelement);
+        }
+    }
+    
+    
+    database.animations.element.innerHTML = '';
+    for (var name in database.animations.list){
+        if (database.animations.list.hasOwnProperty(name)) {
+            var listelement = document.createElement("li");
+            
+            var animation = document.createElement("button");
+            animation.innerHTML = name;
+            
+            animation.setAttribute("onclick","loadAnimationData(database.animations.list['"+name+"']);");
+            animation.setAttribute("ondblclick","removeAnimation('"+name+"')");
+            animation.setAttribute("oncontextmenu","overwriteAnimation('"+name+"')");
+            
+            listelement.appendChild(animation);
+            database.animations.element.appendChild(listelement);
+        }
+    }
+    
+}
+showDatabase();
+</script>

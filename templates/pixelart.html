@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='pixelart.css') }}" />
+
+<div class="content">
+<h1>Pixel Art Editor</h1>
+
+<div class='group'>
+Rows: <input type='number' id='rows'>
+Columns: <input type='number' id='columns'> 
+</div>
+
+<div class='group'>
+  Colours: <input type='color' id='colorvalue' class=''>
+  <button id='setcolor' class=''>+</button>
+  Double click to remove color option
+  <p></p>
+  <div id='coloroptions'></div>
+</div>
+
+<div class='group'>
+<table id='grid' >
+</table>
+</div>
+  
+  
+  <div class='group'>
+  Animation Frames: 
+  <button id='addframe' class=''>+</button>
+  Double click to remove frame, right click to add frame
+    <br>
+    <span id='frames'></span>
+    <br>
+    <button id='play'>></button>
+    
+    Time per frame (ms): <input type='number' id='timing'>
+    Repeat: <input type='checkbox' id='repeat'>
+</div>
+    
+<div class='group'>
+  <h4>Frame Data</h4>
+To Copy as Savedata:<input class='group' id='metadata'/>
+<br>
+To Load in savedata:<input id='metadatainput'/>
+<button id='dataloading'>Load</button>
+</div>
+  
+  <div class='group'>
+  <h4>Animation Data</h4>
+To Copy as Savedata:<input class='group' id='animationdata'/>
+<br>
+To Load in savedata:<input id='animationdatainput'/>
+<button id='animationdataloading'>Load</button>
+</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='pixelart.js') }}"></script>
