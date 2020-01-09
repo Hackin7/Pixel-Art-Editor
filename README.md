@@ -44,3 +44,12 @@ About the savedata, you can just copy the entire text in the text box for the pi
 To load the data, just copy and paste the savedata text in the appropriate input field and click on load.
 ##Also available on Codepen.io!
 But cannot store and save Pixel Arts and Animations to the server https://codepen.io/Hackin7/pen/xMbrzp
+
+## Hacks
+To keep running the animation currently loaded, run this code in the javascript console
+```
+var time = 10*1000; //In milliseconds
+var intervalID = setInterval(function(){var data = JSON.stringify(showAnimationData());
+    POSTrequest("/API/show/animation","data="+JSON.stringify(data));}, time);
+```
+To stop the interval, run `clearInterval(intervalID);`
